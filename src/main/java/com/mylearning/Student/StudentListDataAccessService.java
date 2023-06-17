@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class StudentDataAccessService  implements StudentDAO{
+@Repository("list")
+public class StudentListDataAccessService implements StudentDAO{
 
 
     private static List<Student> studentList;

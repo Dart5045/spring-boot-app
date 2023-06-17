@@ -1,6 +1,7 @@
 package com.mylearning.Student;
 
 import com.mylearning.exception.ResourceNotFound;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class StudentService {
 
     private final StudentDAO studentDAO;
 
-    public StudentService(StudentDAO studentDAO) {
+    public StudentService(@Qualifier("jpa") StudentDAO studentDAO) {
         this.studentDAO = studentDAO;
     }
 
