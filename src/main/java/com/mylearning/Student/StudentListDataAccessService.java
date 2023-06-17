@@ -21,7 +21,7 @@ public class StudentListDataAccessService implements StudentDAO{
     }
 
     @Override
-    public void add(Student studentDTO) {
+    public void insert(Student studentDTO) {
         Student student = new Student();
 
     }
@@ -37,5 +37,12 @@ public class StudentListDataAccessService implements StudentDAO{
                 stream()
                 .filter(student->student.getId().equals( id ))
                 .findFirst();
+    }
+
+    @Override
+    public boolean existStudentWithEmail(String email) {
+        return this.studentList
+                .stream()
+                .anyMatch(student->student.getEmail().equals(email));
     }
 }

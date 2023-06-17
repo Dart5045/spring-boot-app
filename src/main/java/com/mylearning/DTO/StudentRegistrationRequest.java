@@ -1,6 +1,6 @@
 package com.mylearning.DTO;
 
-public record StudentDTO (
+public record StudentRegistrationRequest(
         String firstName,
         String lastName,
         String email,

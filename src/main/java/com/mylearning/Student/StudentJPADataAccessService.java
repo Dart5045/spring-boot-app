@@ -14,8 +14,8 @@ public class StudentJPADataAccessService  implements StudentDAO{
     }
 
     @Override
-    public void add(Student studentDTO) {
-
+    public void insert(Student student) {
+        this.studentRepository.save(student);
     }
 
     @Override
@@ -25,6 +25,11 @@ public class StudentJPADataAccessService  implements StudentDAO{
 
     @Override
     public Optional<Student> getStudentById(Integer studentId) {
-        return Optional.empty();
+        return  this.studentRepository.findById(studentId);
+    }
+
+    @Override
+    public boolean existStudentWithEmail(String email) {
+        return this.studentRepository.existsStudentByEmail(email);
     }
 }
