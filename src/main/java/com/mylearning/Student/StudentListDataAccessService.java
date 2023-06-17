@@ -1,5 +1,6 @@
 package com.mylearning.Student;
 
+import com.mylearning.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -44,5 +45,20 @@ public class StudentListDataAccessService implements StudentDAO{
         return this.studentList
                 .stream()
                 .anyMatch(student->student.getEmail().equals(email));
+    }
+
+    @Override
+    public void deleteStudentById(Integer studentId) {
+        studentList.stream()
+                .filter(student -> student.getId().equals(studentId))
+                .findFirst()
+                .ifPresent(studentList::remove);
+    }
+
+    @Override
+    public boolean existsStudentWithId(Integer studentId) {
+        return studentList.stream().anyMatch(
+                student -> student.getId().equals(studentId)
+        );
     }
 }

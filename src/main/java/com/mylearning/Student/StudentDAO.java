@@ -10,4 +10,8 @@ public interface StudentDAO {
     Optional<Student> getStudentById(Integer studentId);
 
     public boolean existStudentWithEmail(String email);
+
+    public void deleteStudentById(Integer studentId);
+
+    boolean existsStudentWithId(Integer studentId);
 }

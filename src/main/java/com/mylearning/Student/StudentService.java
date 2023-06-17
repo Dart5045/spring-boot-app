@@ -46,4 +46,12 @@ public class StudentService {
         );
         this.studentDAO.insert(student);
     }
+
+    public void deleteStudentById(Integer studentId)
+    {
+        if(!this.studentDAO.existsStudentWithId(studentId)){
+            throw new ResourceNotFoundException("Student with Id [%s] not found".formatted(studentId));
+        }
+        this.studentDAO.deleteStudentById(studentId);
+    }
 }
