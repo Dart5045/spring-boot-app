@@ -64,9 +64,6 @@ public class StudentListDataAccessService implements StudentDAO{
 
     @Override
     public void save(Student student) {
-        studentList.stream()
-                .filter(s -> s.getId().equals(student.getId()))
-                .findFirst()
-                .ifPresent(studentList::remove);
+        studentList.add(student);
     }
 }
