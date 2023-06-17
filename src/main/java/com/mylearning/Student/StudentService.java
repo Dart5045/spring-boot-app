@@ -1,9 +1,14 @@
 package com.mylearning.Student;
 
+import com.mylearning.exception.ResourceNotFound;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+/*
+  bussiness logic
+  */
 @Service
 public class StudentService {
 
@@ -20,6 +25,6 @@ public class StudentService {
     public Student getStudent(Integer studentId){
         return studentDAO
                 .getStudentById(studentId)
-                .orElseThrow(()->new IllegalArgumentException("Student with id [%s] not found".formatted(studentId)));
+                .orElseThrow(()->new ResourceNotFound("Student with id [%s] not found".formatted(studentId)));
     }
 }
