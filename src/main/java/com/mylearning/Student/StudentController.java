@@ -1,6 +1,7 @@
 package com.mylearning.Student;
 
 import com.mylearning.DTO.StudentRegistrationRequest;
+import com.mylearning.DTO.StudentUpdateRequest;
 import com.mylearning.Student.Student;
 import com.mylearning.Student.StudentService;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudents(
-    ){
+    public List<Student> getStudents(  ){
         return studentService.getAllStudents();
     }
 
@@ -43,5 +43,13 @@ public class StudentController {
             @PathVariable("id") Integer id
     ){
         studentService.deleteStudentById(id);
+    }
+
+    @PutMapping("/{studentId}")
+    public void updateSutdent(
+            @PathVariable("studentId") Integer studentId,
+            @RequestBody StudentUpdateRequest studentUpdateRequest
+    ){
+        studentService.updateStudentById(studentId, studentUpdateRequest);
     }
 }

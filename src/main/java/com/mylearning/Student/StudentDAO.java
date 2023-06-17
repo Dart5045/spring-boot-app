@@ -1,5 +1,7 @@
 package com.mylearning.Student;
 
+import com.mylearning.DTO.StudentRegistrationRequest;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +16,6 @@ public interface StudentDAO {
     public void deleteStudentById(Integer studentId);
 
     boolean existsStudentWithId(Integer studentId);
+
+    void save(Student student);
 }

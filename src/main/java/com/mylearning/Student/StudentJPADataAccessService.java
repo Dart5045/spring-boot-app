@@ -40,6 +40,11 @@ public class StudentJPADataAccessService  implements StudentDAO{
 
     @Override
     public boolean existsStudentWithId(Integer studentId) {
-        return this.studentRepository.existsStudentWithId(studentId);
+        return this.studentRepository.existsStudentById(studentId);
+    }
+
+    @Override
+    public void save(Student student) {
+        this.studentRepository.save(student);
     }
 }
