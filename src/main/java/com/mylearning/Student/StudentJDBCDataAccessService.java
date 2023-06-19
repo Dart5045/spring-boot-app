@@ -1,6 +1,7 @@
 package com.mylearning.Student;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,7 +32,21 @@ public class StudentJDBCDataAccessService implements StudentDAO{
 
     @Override
     public List<Student> getAllStudents() {
-        return null;
+        final String SQL_FIND_STUDENT = """
+                SELECT id, first_name, last_name, email, age 
+                FROM student""";
+        RowMapper<Student> studentRowMapper =  (rs, rowNum) -> {
+            Student student = new Student(
+                    rs.getLong("id") ,
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("email"),
+                    rs.getInt("age")
+            );
+            return student;
+            };
+        List<Student> studentList= jdbcTemplate.query(SQL_FIND_STUDENT,studentRowMapper);
+        return  studentList;
     }
 
     @Override
