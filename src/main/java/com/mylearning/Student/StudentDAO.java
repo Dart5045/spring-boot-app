@@ -17,5 +17,5 @@ public interface StudentDAO {
 
     boolean existsStudentWithId(Integer studentId);
 
-    void save(Student student);
+    void updateStudend(Student student);
 }

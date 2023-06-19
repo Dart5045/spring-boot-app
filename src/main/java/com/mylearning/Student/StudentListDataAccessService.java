@@ -63,7 +63,7 @@ public class StudentListDataAccessService implements StudentDAO{
     }
 
     @Override
-    public void save(Student student) {
+    public void updateStudend(Student student) {
         studentList.add(student);
     }
 }

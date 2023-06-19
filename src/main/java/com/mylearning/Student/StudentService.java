@@ -82,7 +82,7 @@ public class StudentService {
          if(!changes){
              throw new RequestValidationException("No data changes found");
          }
-         this.studentDAO.save(student);
+         this.studentDAO.updateStudend(student);
     }
 
     public void checkEmail(String email){
