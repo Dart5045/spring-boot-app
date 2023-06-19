@@ -9,24 +9,48 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(
+        name = "student",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "student_email_unique",
+                        columnNames = "email"
+                )
+        }
+)
 public class Student {
 
     @Id
     @SequenceGenerator(
             name = "student_id_seq",
-            sequenceName = "student_id_seq"
+            sequenceName = "student_id_seq",
+            allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "student_id_seq"
     )
-    private  Integer id;
+    private  Long id;
+
+    @Column(
+            nullable = false,
+            name = "first_name"
+    )
+    private String firstName;
+
+    @Column(
+            name="last_name",
+            nullable = false
+    )
+    private String lastName;
 
     @Column(
             nullable = false
     )
-    private String firstName;
-    private String lastName;
     private String email;
+
+    @Column(
+            nullable = false
+    )
     private Integer age;
 }

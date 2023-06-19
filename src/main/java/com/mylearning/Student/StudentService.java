@@ -19,7 +19,7 @@ public class StudentService {
 
     private final StudentDAO studentDAO;
 
-    public StudentService(@Qualifier("jpa") StudentDAO studentDAO) {
+    public StudentService(@Qualifier("jdbc") StudentDAO studentDAO) {
         this.studentDAO = studentDAO;
     }
 

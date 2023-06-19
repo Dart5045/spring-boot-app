@@ -1,0 +1,1 @@
+ALTER TABLE student ADD UNIQUE student_email_unique UNIQUE (email);
