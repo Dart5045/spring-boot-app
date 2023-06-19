@@ -10,11 +10,15 @@ import java.util.Optional;
 @Repository("jdbc")
 public class StudentJDBCDataAccessService implements StudentDAO{
     private final JdbcTemplate jdbcTemplate;
+    private final StudentRowMapper studentRowMapper;
 
-    public StudentJDBCDataAccessService(JdbcTemplate jdbcTemplate) {
+
+    public StudentJDBCDataAccessService(JdbcTemplate jdbcTemplate,
+                                        StudentRowMapper studentRowMapper
+    ) {
         this.jdbcTemplate = jdbcTemplate;
+        this.studentRowMapper = studentRowMapper;
     }
-
 
     @Override
     public void insert(Student student) {
@@ -35,18 +39,7 @@ public class StudentJDBCDataAccessService implements StudentDAO{
         final String SQL_FIND_STUDENT = """
                 SELECT id, first_name, last_name, email, age 
                 FROM student""";
-        RowMapper<Student> studentRowMapper =  (rs, rowNum) -> {
-            Student student = new Student(
-                    rs.getLong("id") ,
-                    rs.getString("first_name"),
-                    rs.getString("last_name"),
-                    rs.getString("email"),
-                    rs.getInt("age")
-            );
-            return student;
-            };
-        List<Student> studentList= jdbcTemplate.query(SQL_FIND_STUDENT,studentRowMapper);
-        return  studentList;
+        return jdbcTemplate.query(SQL_FIND_STUDENT,studentRowMapper);
     }
 
     @Override
