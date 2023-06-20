@@ -25,7 +25,7 @@ public class StudentController {
 
     @GetMapping("{id}")
     public Student getStudents(
-            @PathVariable("id") Integer studentId
+            @PathVariable("id") Long studentId
     ){
         return studentService.getStudent(studentId);
     }
@@ -38,14 +38,14 @@ public class StudentController {
 
     @DeleteMapping("{id}")
     public void deleteStudent(
-            @PathVariable("id") Integer id
+            @PathVariable("id") Long id
     ){
         studentService.deleteStudentById(id);
     }
 
     @PutMapping("/{studentId}")
     public void updateSutdent(
-            @PathVariable("studentId") Integer studentId,
+            @PathVariable("studentId") Long studentId,
             @RequestBody StudentUpdateRequest studentUpdateRequest
     ){
         studentService.updateStudentById(studentId, studentUpdateRequest);

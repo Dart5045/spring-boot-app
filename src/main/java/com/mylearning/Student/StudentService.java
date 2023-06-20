@@ -27,7 +27,7 @@ public class StudentService {
         return studentDAO.getAllStudents();
     }
 
-    public Student getStudent(Integer studentId){
+    public Student getStudent(Long studentId){
         return studentDAO
                 .getStudentById(studentId)
                 .orElseThrow(()->new ResourceNotFoundException("Student with id [%s] not found".formatted(studentId)));
@@ -44,10 +44,10 @@ public class StudentService {
                 studentRegistrationRequest.email(),
                 studentRegistrationRequest.age()
         );
-        this.studentDAO.insert(student);
+        this.studentDAO.insertStudent(student);
     }
 
-    public void deleteStudentById(Integer studentId)
+    public void deleteStudentById(Long studentId)
     {
         if(!this.studentDAO.existsStudentWithId(studentId)){
             throw new ResourceNotFoundException("Student with Id [%s] not found".formatted(studentId));
@@ -55,7 +55,7 @@ public class StudentService {
         this.studentDAO.deleteStudentById(studentId);
     }
 
-    public void updateStudentById(Integer studentId,
+    public void updateStudentById(Long studentId,
                                   StudentUpdateRequest updateRequest) {
          Student student =  getStudent(studentId);
          boolean changes = false;

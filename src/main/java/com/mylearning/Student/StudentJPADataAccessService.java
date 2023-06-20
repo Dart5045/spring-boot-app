@@ -14,7 +14,7 @@ public class StudentJPADataAccessService  implements StudentDAO{
     }
 
     @Override
-    public void insert(Student student) {
+    public void insertStudent(Student student) {
         this.studentRepository.save(student);
     }
 
@@ -24,7 +24,7 @@ public class StudentJPADataAccessService  implements StudentDAO{
     }
 
     @Override
-    public Optional<Student> getStudentById(Integer studentId) {
+    public Optional<Student> getStudentById(Long studentId) {
         return  this.studentRepository.findById(studentId);
     }
 
@@ -34,12 +34,13 @@ public class StudentJPADataAccessService  implements StudentDAO{
     }
 
     @Override
-    public void deleteStudentById(Integer studentId) {
+    public void deleteStudentById(Long studentId) {
+
         this.studentRepository.deleteById(studentId);
     }
 
     @Override
-    public boolean existsStudentWithId(Integer studentId) {
+    public boolean existsStudentWithId(Long studentId) {
         return this.studentRepository.existsStudentById(studentId);
     }
 

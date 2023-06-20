@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StudentDAO {
-    public void insert(Student student);
+    public void insertStudent(Student student);
     public List<Student> getAllStudents();
 
-    Optional<Student> getStudentById(Integer studentId);
+    Optional<Student> getStudentById(Long studentId);
 
     public boolean existStudentWithEmail(String email);
 
-    public void deleteStudentById(Integer studentId);
+    public void deleteStudentById(Long studentId);
 
-    boolean existsStudentWithId(Integer studentId);
+    boolean existsStudentWithId(Long studentId);
 
     void updateStudend(Student student);
 }

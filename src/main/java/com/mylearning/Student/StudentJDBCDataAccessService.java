@@ -21,7 +21,7 @@ public class StudentJDBCDataAccessService implements StudentDAO{
     }
 
     @Override
-    public void insert(Student student) {
+    public void insertStudent(Student student) {
         var sql  = """
                 INSERT INTO student(
                 first_name, last_name, email, age
@@ -43,7 +43,7 @@ public class StudentJDBCDataAccessService implements StudentDAO{
     }
 
     @Override
-    public Optional<Student> getStudentById(Integer studentId) {
+    public Optional<Student> getStudentById(Long studentId) {
         final String SQL_FIND_STUDENT_BY_ID = """
                 SELECT id, first_name, last_name, email, age 
                 FROM student WHERE id= ? """;
@@ -64,14 +64,14 @@ public class StudentJDBCDataAccessService implements StudentDAO{
     }
 
     @Override
-    public void deleteStudentById(Integer studentId) {
+    public void deleteStudentById(Long studentId) {
         final String SQL_DELETE_STUDENT_BY_ID = """
                 DELETE FROM student WHERE id= ? """;
         int update = jdbcTemplate.update(SQL_DELETE_STUDENT_BY_ID,studentId);
     }
 
     @Override
-    public boolean existsStudentWithId(Integer studentId) {
+    public boolean existsStudentWithId(Long studentId) {
         final String SQL_FIND_STUDENT_BY_EMAIL = """
                 SELECT count(id) 
                 FROM student WHERE id= ? """;

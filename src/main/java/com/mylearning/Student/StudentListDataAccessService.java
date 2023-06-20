@@ -16,13 +16,13 @@ public class StudentListDataAccessService implements StudentDAO{
     static {
         studentList = new ArrayList<>();
         Student alex = new Student(1L,"Alex","Gonzales","alex@gmail.com",12 );
-        Student adalid = new Student(1L,"Adalid","Gonzales","adalid@gmail.com",12 );
+        Student adalid = new Student(2L,"Adalid","Gonzales","adalid@gmail.com",12 );
         studentList.add(alex);
         studentList.add(adalid);
     }
 
     @Override
-    public void insert(Student studentDTO) {
+    public void insertStudent(Student studentDTO) {
         Student student = new Student();
 
     }
@@ -33,7 +33,7 @@ public class StudentListDataAccessService implements StudentDAO{
     }
 
     @Override
-    public Optional<Student> getStudentById(Integer id) {
+    public Optional<Student> getStudentById(Long id) {
         return  this.studentList.
                 stream()
                 .filter(student->student.getId().equals( id ))
@@ -48,7 +48,7 @@ public class StudentListDataAccessService implements StudentDAO{
     }
 
     @Override
-    public void deleteStudentById(Integer studentId) {
+    public void deleteStudentById(Long studentId) {
         studentList.stream()
                 .filter(student -> student.getId().equals(studentId))
                 .findFirst()
@@ -56,7 +56,7 @@ public class StudentListDataAccessService implements StudentDAO{
     }
 
     @Override
-    public boolean existsStudentWithId(Integer studentId) {
+    public boolean existsStudentWithId(Long studentId) {
         return studentList.stream().anyMatch(
                 student -> student.getId().equals(studentId)
         );
