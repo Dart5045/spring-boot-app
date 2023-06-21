@@ -7,9 +7,7 @@ import com.mylearning.exception.RequestValidationException;
 import com.mylearning.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 
 /*
   business logic
@@ -35,7 +33,7 @@ public class StudentService {
 
     public void addStudent(StudentRegistrationRequest studentRegistrationRequest ){
         String  email = studentRegistrationRequest.email();
-        this.checkEmail(email);
+        checkEmail(email);
 
         Student student = new Student(
                 null,
