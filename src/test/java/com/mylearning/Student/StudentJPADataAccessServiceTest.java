@@ -122,7 +122,7 @@ class StudentJPADataAccessServiceTest {
                 20);
 
         //When
-        underTest.updateStudend(student);
+        underTest.updateStudent(student);
 
         //Then
         verify(studentRepository).save(student);

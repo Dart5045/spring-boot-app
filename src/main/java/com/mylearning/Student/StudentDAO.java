@@ -17,5 +17,5 @@ public interface StudentDAO {
 
     boolean existsStudentWithId(Long studentId);
 
-    void updateStudend(Student student);
+    void updateStudent(Student student);
 }

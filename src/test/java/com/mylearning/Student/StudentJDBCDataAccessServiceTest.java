@@ -226,7 +226,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
         update.setId(id);
         update.setFirstName(newName);
 
-        underTest.updateStudend(update);
+        underTest.updateStudent(update);
 
         // Then
         Optional<Student> actual = underTest.getStudentById(id);
@@ -265,7 +265,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
         update.setId(id);
         update.setEmail(newEmail);
 
-        underTest.updateStudend(update);
+        underTest.updateStudent(update);
 
         // Then
         Optional<Student> actual = underTest.getStudentById(id);
@@ -304,7 +304,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
         update.setId(id);
         update.setAge(newAge);
 
-        underTest.updateStudend(update);
+        underTest.updateStudent(update);
 
         // Then
         Optional<Student> actual = underTest.getStudentById(id);

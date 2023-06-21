@@ -45,7 +45,7 @@ public class StudentJPADataAccessService  implements StudentDAO{
     }
 
     @Override
-    public void updateStudend(Student student) {
+    public void updateStudent(Student student) {
         this.studentRepository.save(student);
     }
 }

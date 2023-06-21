@@ -82,7 +82,7 @@ public class StudentJDBCDataAccessService implements StudentDAO{
     }
 
     @Override
-    public void updateStudend(Student student) {
+    public void updateStudent(Student student) {
         if(student.getFirstName()!= null){
             String sql ="""
                 UPDATE student SET

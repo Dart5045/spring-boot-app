@@ -76,11 +76,16 @@ public class StudentService {
             changes = true;
             student.setEmail(updateRequest.email());
         }
+        if(updateRequest.age()!=null && !updateRequest.age().equals(student.getAge()))
+        {
+            changes = true;
+            student.setAge(updateRequest.age());
+        }
 
          if(!changes){
              throw new RequestValidationException("No data changes found");
          }
-         this.studentDAO.updateStudend(student);
+         this.studentDAO.updateStudent(student);
     }
 
     public void checkEmail(String email){
