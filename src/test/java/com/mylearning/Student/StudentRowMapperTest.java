@@ -43,8 +43,8 @@ class StudentRowMapperTest {
                 3L,
                 "Alex",
                 "Gonzales",
-                "alext@gmail.com",
-                12
+                "alex@gmail.com",
+                20
         );
         assertThat(student).isEqualTo(expected);
     }
