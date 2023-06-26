@@ -1,0 +1,46 @@
+name: CI - Build - bakcend
+on:
+  # Label of the container job
+  pull_request:
+    branches:
+      - main
+    paths:
+      - backend/**/**
+jobs:
+  build:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latst
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:14.5
+        # Provide the password for postgres
+        env:
+          POSTGRES_DB: student
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5332:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+         run:
+           working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v3step
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Build and run Unit/Integration Tests with Maven
+        # ntp: will suppress the output of downloading messages at all without suppressing the other output
+        # -B:  Batch Mode. So it will for example suppress upload messages to avoid polluting the console log
+        run: mvn -ntp -B verify
