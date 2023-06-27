@@ -1,11 +1,9 @@
-name: CI - Build - Backend
+name: CI - Build - bakcend
 on:
   # Label of the container job
   pull_request:
     branches:
       - main
-
-    #Whe want to observe for any changes under backend folder
     paths:
       - backend/**/**
 jobs:
@@ -36,11 +34,7 @@ jobs:
          run:
            working-directory: ./backend
     steps:
-      #This action will check out the entire application, our entire code
-      #Into the linux runner
-      - uses: actions/checkout@v3
-
-      #Set up java
+      - uses: actions/checkout@v3step
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'

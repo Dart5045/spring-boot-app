@@ -21,7 +21,6 @@
 		<java.version>17</java.version>
 		<docker.username>bladimirg</docker.username>
 		<docker.image.name>spring-boot-app</docker.image.name>
-		<docker.image.tag/>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -172,7 +171,7 @@
 						</platforms>
 					</from>
 					<to>
-						<image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
+						<image>docker.io/${docker.username}/${docker.image.name}:${project.version}</image>
 						<tags>
 							<tag>latest</tag>
 						</tags>
