@@ -7,7 +7,7 @@ spring:
   application:
     name: Spring-app
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/my-learning
+    url: jdbc:postgresql://127.0.0.1:5332/student
     username: postgres
     password: password
   jpa:
