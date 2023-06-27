@@ -14,12 +14,12 @@ public class StudentController {
     private StudentService studentService;
 
     public StudentController(StudentService studentService){
-
         this.studentService = studentService;
     }
 
     @GetMapping
     public List<Student> getStudents(  ){
+        System.out.println("Test");
         return studentService.getAllStudents();
     }
 
