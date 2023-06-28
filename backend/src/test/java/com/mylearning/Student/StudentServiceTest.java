@@ -51,7 +51,8 @@ class StudentServiceTest {
           "Alex",
           "Gonzales",
           "alext@gmail.com",
-          23
+          23,
+                Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
 
@@ -89,7 +90,8 @@ class StudentServiceTest {
             "alex",
             "gonzales",
                 email,
-            23
+            23,
+                Gender.MALE
         );
         underTest.addStudent(request);
 
@@ -116,7 +118,8 @@ class StudentServiceTest {
                 "alex",
                 "gonzales",
                 emailAlreadyExits,
-                23
+                23,
+                Gender.MALE
         );
         //When
         assertThatThrownBy(()->underTest.addStudent(request))
@@ -168,7 +171,8 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 "alex@gmail.com",
-                23
+                23,
+                Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
         when(studentDAO.existStudentWithEmail(emailToChange)).thenReturn(false);
@@ -177,7 +181,8 @@ class StudentServiceTest {
                 "alex2",
                 "gonzales2",
                 emailToChange,
-                24
+                24,
+                Gender.MALE
         );
 
         //When
@@ -204,12 +209,14 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 email,
-                23
+                23,
+                Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
 
         StudentUpdateRequest request = new StudentUpdateRequest(
                 "alexA",
+                null,
                 null,
                 null,
                 null
@@ -239,7 +246,8 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 "alex@gmail.com",
-                23
+                23,
+                Gender.MALE
         );
         when(studentDAO.existStudentWithEmail(emailToChange)).thenReturn(false);
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
@@ -248,6 +256,7 @@ class StudentServiceTest {
                 null,
                 null,
                 emailToChange,
+                null,
                 null
         );
 
@@ -276,7 +285,8 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 email,
-                23
+                23,
+                Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
 
@@ -284,7 +294,8 @@ class StudentServiceTest {
                 null,
                 null,
                 null,
-                12
+                12,
+                null
         );
 
         //When
@@ -310,7 +321,8 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 "alexi@gmail.com",
-                23
+                23,
+                Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
 
@@ -318,6 +330,7 @@ class StudentServiceTest {
                 null,
                 null,
                 emailToUpdate,
+                null,
                 null
         );
         when(studentDAO.existStudentWithEmail(emailToUpdate)).thenReturn(true);
@@ -344,7 +357,8 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 email,
-                23
+                23,
+                Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
 
@@ -352,7 +366,8 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 email,
-                23
+                23,
+                Gender.MALE
         );
 
         //When

@@ -31,7 +31,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 FAKER.internet().safeEmailAddress(),
-                20);
+                20,
+                Gender.MALE);
          underTest.insertStudent(student);
 
         //When
@@ -50,7 +51,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
         underTest.insertStudent(student);
 
         Long studentId = underTest.getAllStudents()
@@ -95,7 +97,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
         underTest.insertStudent(student);
 
         //When
@@ -112,7 +115,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
         underTest.insertStudent(student);
 
         //When
@@ -144,7 +148,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
         underTest.insertStudent(student);
         Long studentId = underTest.getAllStudents()
                 .stream()
@@ -182,7 +187,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
         underTest.insertStudent(student);
         Long studentId = underTest.getAllStudents()
                 .stream()
@@ -208,7 +214,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
 
         underTest.insertStudent(student);
 
@@ -247,7 +254,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
 
         underTest.insertStudent(student);
 
@@ -286,7 +294,8 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20);
+                20,
+                Gender.MALE);
 
         underTest.insertStudent(student);
 

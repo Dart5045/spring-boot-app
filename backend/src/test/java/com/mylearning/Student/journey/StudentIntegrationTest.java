@@ -3,6 +3,7 @@ package com.mylearning.Student.journey;
 import com.github.javafaker.Faker;
 import com.mylearning.DTO.StudentRegistrationRequest;
 import com.mylearning.DTO.StudentUpdateRequest;
+import com.mylearning.Student.Gender;
 import com.mylearning.Student.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +37,15 @@ public class StudentIntegrationTest {
         String lastName  =  faker.name().lastName();
         String email     = lastName+ "-" + UUID.randomUUID() +"@gamil.com";
         int age          = RANDOM.nextInt(0,100);
+        Gender gender    = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
 
         //Create student registration request
         StudentRegistrationRequest request = new StudentRegistrationRequest(
                 firstName,
                 lastName,
                 email,
-                age
+                age,
+                gender
         );
 
         //Send a post request
@@ -68,11 +71,13 @@ public class StudentIntegrationTest {
                 .getResponseBody();
 
         //Make sure student is present
+
         Student expectedStudent = new Student(
             firstName,
             lastName,
             email,
-            age
+            age,
+            gender
         );
         assertThat(allStudents)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
@@ -105,13 +110,16 @@ public class StudentIntegrationTest {
         String lastName  =  faker.name().lastName();
         String email     = lastName+ "-" + UUID.randomUUID() +"@gamil.com";
         int age          = RANDOM.nextInt(0,100);
+        Gender gender    = age % 2 == 0?Gender.MALE:Gender.FEMALE;
+
 
         //Create student registration request
         StudentRegistrationRequest request = new StudentRegistrationRequest(
                 firstName,
                 lastName,
                 email,
-                age
+                age,
+                gender
         );
 
         //Send a post request
@@ -169,13 +177,16 @@ public class StudentIntegrationTest {
         String lastName  =  faker.name().lastName();
         String email     = lastName+ "-" + UUID.randomUUID() +"@gamil.com";
         int age          = RANDOM.nextInt(0,100);
+        Gender gender    = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
+
 
         //Create student registration request
         StudentRegistrationRequest request = new StudentRegistrationRequest(
                 firstName,
                 lastName,
                 email,
-                age
+                age,
+                gender
         );
 
 
@@ -215,20 +226,11 @@ public class StudentIntegrationTest {
 
 
         //Update student
-        String newEmail = "2"+email;
+        String newName = "Alex";
         StudentUpdateRequest updateRequest = new StudentUpdateRequest(
-                "2"+firstName,
-                "2"+lastName,
-                newEmail,
-                2+age
+                newName, null,null,null,null
         );
-        Student expectedStudent = new Student(
-                id,
-                "2"+firstName,
-                "2"+lastName,
-                newEmail,
-                2+age
-        );
+
 
         webTestClient.put()
                 .uri(STUDENT_URI+"/{id}",id)
@@ -240,7 +242,7 @@ public class StudentIntegrationTest {
                 .isOk();
 
 
-        //Get student
+        //Get student by id
         Student studentUpdated = webTestClient.get()
                 .uri(STUDENT_URI + "/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
@@ -252,6 +254,15 @@ public class StudentIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
+        Student expectedStudent = new Student(
+                id,
+                newName,
+                lastName,
+                email,
+                age,
+                gender,
+                null
+        );
         assertThat(expectedStudent).isEqualTo(studentUpdated);
     }
 }

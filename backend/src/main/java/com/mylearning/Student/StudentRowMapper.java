@@ -15,7 +15,8 @@ public class StudentRowMapper implements RowMapper<Student> {
                 rs.getString("first_name"),
                 rs.getString("last_name"),
                 rs.getString("email"),
-                rs.getInt("age")
+                rs.getInt("age"),
+                Gender.valueOf(rs.getString("gender"))
         );
     }
 }

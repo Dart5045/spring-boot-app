@@ -36,12 +36,13 @@ public class StudentService {
         checkEmail(email);
 
         Student student = new Student(
-                null,
                 studentRegistrationRequest.firstName(),
                 studentRegistrationRequest.lastName(),
                 studentRegistrationRequest.email(),
-                studentRegistrationRequest.age()
+                studentRegistrationRequest.age(),
+                studentRegistrationRequest.gender()
         );
+
         this.studentDAO.insertStudent(student);
     }
 

@@ -54,11 +54,29 @@ public class Student {
     )
     private Integer age;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
-    public Student(String firstName, String lastName, String email, Integer age) {
+    @Column(
+            unique = true
+    )
+    private String profileImageId;
+
+
+    public Student(Long id, String firstName, String lastName, String email, Integer age, Gender gender) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
+        this.gender = gender;
+    }
+
+    public Student(String firstName, String lastName, String email, Integer age, Gender gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.gender = gender;
     }
 }

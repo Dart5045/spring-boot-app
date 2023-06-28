@@ -18,7 +18,6 @@
           "value" : "jdbc:postgresql://awseb-e-mnxuyqcbm4-stack-awsebrdsdatabase-bw0f8uozkyts.cvydrhqmscyg.eu-west-3.rds.amazonaws.com:5432/student"
         }
       ]
-
     }
   ]
 }

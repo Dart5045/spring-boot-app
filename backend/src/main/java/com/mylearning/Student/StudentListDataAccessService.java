@@ -15,8 +15,8 @@ public class StudentListDataAccessService implements StudentDAO{
 
     static {
         studentList = new ArrayList<>();
-        Student alex = new Student(1L,"Alex","Gonzales","alex@gmail.com",12 );
-        Student adalid = new Student(2L,"Adalid","Gonzales","adalid@gmail.com",12 );
+        Student alex = new Student(1L,"Alex","Gonzales","alex@gmail.com",12,Gender.MALE,"" );
+        Student adalid = new Student(2L,"Adalid","Gonzales","adalid@gmail.com",12, Gender.MALE,"" );
         studentList.add(alex);
         studentList.add(adalid);
     }

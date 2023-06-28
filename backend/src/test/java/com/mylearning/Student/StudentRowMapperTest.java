@@ -44,7 +44,9 @@ class StudentRowMapperTest {
                 "Alex",
                 "Gonzales",
                 "alex@gmail.com",
-                20
+                20,
+                Gender.MALE,
+                null
         );
         assertThat(student).isEqualTo(expected);
     }

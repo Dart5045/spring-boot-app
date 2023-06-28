@@ -22,22 +22,24 @@ public class StudentJDBCDataAccessService implements StudentDAO{
 
     @Override
     public void insertStudent(Student student) {
+
         var sql  = """
                 INSERT INTO student(
-                first_name, last_name, email, age
-                ) VALUES( ? ,? , ? ,? )
+                first_name, last_name, email, age, gender
+                ) VALUES( ? ,? , ? ,?, ? )
                 """;
         int update = jdbcTemplate.update(sql,
                 student.getFirstName(),
                 student.getLastName(),
                 student.getEmail(),
-                student.getAge());
+                student.getAge(),
+                student.getGender().name());
     }
 
     @Override
     public List<Student> getAllStudents() {
         final String SQL_FIND_ALL_STUDENTS = """
-                SELECT id, first_name, last_name, email, age 
+                SELECT id, first_name, last_name, email, age, gender 
                 FROM student""";
         return jdbcTemplate.query(SQL_FIND_ALL_STUDENTS,studentRowMapper);
     }
@@ -45,7 +47,7 @@ public class StudentJDBCDataAccessService implements StudentDAO{
     @Override
     public Optional<Student> getStudentById(Long studentId) {
         final String SQL_FIND_STUDENT_BY_ID = """
-                SELECT id, first_name, last_name, email, age 
+                SELECT id, first_name, last_name, email, age, gender
                 FROM student WHERE id= ? """;
         Optional<Student> student = jdbcTemplate.query(SQL_FIND_STUDENT_BY_ID,studentRowMapper, studentId)
                 .stream()
