@@ -15,6 +15,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -24,11 +26,15 @@ class StudentServiceTest {
 
     @Mock
     private StudentDAO studentDAO;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     private StudentService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new StudentService(studentDAO);
+        underTest = new StudentService(studentDAO, passwordEncoder);
     }
 
     @Test
@@ -51,7 +57,8 @@ class StudentServiceTest {
           "Alex",
           "Gonzales",
           "alext@gmail.com",
-          23,
+                "password",
+                23,
                 Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
@@ -90,10 +97,14 @@ class StudentServiceTest {
             "alex",
             "gonzales",
                 email,
+                "password",
             23,
                 Gender.MALE
         );
         underTest.addStudent(request);
+
+        String passwordHash = "asfdajslkdfjalfdkjsa";
+        when(passwordEncoder.encode(any())).thenReturn(passwordHash);
 
 
         //Then
@@ -106,6 +117,8 @@ class StudentServiceTest {
         assertThat(capturedStudent.getLastName()).isEqualTo(request.lastName());
         assertThat(capturedStudent.getEmail()).isEqualTo(request.email());
         assertThat(capturedStudent.getAge()).isEqualTo(request.age());
+        assertThat(capturedStudent.getPassword()).isEqualTo(passwordHash);
+
     }
 
     @Test
@@ -118,6 +131,7 @@ class StudentServiceTest {
                 "alex",
                 "gonzales",
                 emailAlreadyExits,
+                "password",
                 23,
                 Gender.MALE
         );
@@ -171,6 +185,7 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 "alex@gmail.com",
+                "password",
                 23,
                 Gender.MALE
         );
@@ -209,6 +224,7 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 email,
+                "password",
                 23,
                 Gender.MALE
         );
@@ -246,6 +262,7 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 "alex@gmail.com",
+                "password",
                 23,
                 Gender.MALE
         );
@@ -285,7 +302,8 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 email,
-                23,
+                "password"
+                , 23,
                 Gender.MALE
         );
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
@@ -321,6 +339,7 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 "alexi@gmail.com",
+                "password",
                 23,
                 Gender.MALE
         );
@@ -357,6 +376,7 @@ class StudentServiceTest {
                 "Alex",
                 "Gonzales",
                 email,
+                "password",
                 23,
                 Gender.MALE
         );

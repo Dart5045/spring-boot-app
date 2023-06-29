@@ -4,6 +4,9 @@ import com.mylearning.DTO.StudentRegistrationRequest;
 import com.mylearning.DTO.StudentUpdateRequest;
 import com.mylearning.Student.Student;
 import com.mylearning.Student.StudentService;
+import com.mylearning.jwt.JWTUtil;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,10 +15,11 @@ import java.util.List;
 @RequestMapping("api/v1/students")
 public class StudentController {
     private StudentService studentService;
+    private JWTUtil jwtUtil;
 
-    public StudentController(StudentService studentService){
-
+    public StudentController(StudentService studentService, JWTUtil jwtUtil){
         this.studentService = studentService;
+        this.jwtUtil= jwtUtil;
     }
 
     @GetMapping
@@ -30,10 +34,16 @@ public class StudentController {
         return studentService.getStudent(studentId);
     }
     @PostMapping
-    public void registerStudent(
+    public ResponseEntity<?> registerStudent(
             @RequestBody StudentRegistrationRequest studentRegistrationRequest
     ){
         studentService.addStudent(studentRegistrationRequest);
+        String jwtToken = jwtUtil.issueToken(studentRegistrationRequest.email(), "ROLE_STUDENT");
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .build();
+
     }
 
     @DeleteMapping("{id}")

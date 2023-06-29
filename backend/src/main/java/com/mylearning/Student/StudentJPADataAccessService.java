@@ -48,4 +48,9 @@ public class StudentJPADataAccessService  implements StudentDAO{
     public void updateStudent(Student student) {
         this.studentRepository.save(student);
     }
+
+    @Override
+    public Optional<Student> selectStudentByEmail(String email) {
+        return this.studentRepository.findStudentByEmail(email);
+    }
 }

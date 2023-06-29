@@ -18,4 +18,6 @@ public interface StudentDAO {
     boolean existsStudentWithId(Long studentId);
 
     void updateStudent(Student student);
+
+    Optional<Student> selectStudentByEmail(String email);
 }

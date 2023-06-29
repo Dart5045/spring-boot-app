@@ -2,13 +2,10 @@ package com.mylearning.Student;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,9 +41,9 @@ class StudentRowMapperTest {
                 "Alex",
                 "Gonzales",
                 "alex@gmail.com",
+                "password",
                 20,
-                Gender.MALE,
-                null
+                Gender.MALE
         );
         assertThat(student).isEqualTo(expected);
     }

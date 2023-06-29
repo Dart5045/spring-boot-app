@@ -25,13 +25,14 @@ public class StudentJDBCDataAccessService implements StudentDAO{
 
         var sql  = """
                 INSERT INTO student(
-                first_name, last_name, email, age, gender
-                ) VALUES( ? ,? , ? ,?, ? )
+                first_name, last_name, email, password , age, gender
+                ) VALUES( ? ,?, ? , ? ,?, ? )
                 """;
         int update = jdbcTemplate.update(sql,
                 student.getFirstName(),
                 student.getLastName(),
                 student.getEmail(),
+                student.getPassword(),
                 student.getAge(),
                 student.getGender().name());
     }
@@ -39,7 +40,7 @@ public class StudentJDBCDataAccessService implements StudentDAO{
     @Override
     public List<Student> getAllStudents() {
         final String SQL_FIND_ALL_STUDENTS = """
-                SELECT id, first_name, last_name, email, age, gender 
+                SELECT id, first_name, last_name, email, password , age, gender 
                 FROM student""";
         return jdbcTemplate.query(SQL_FIND_ALL_STUDENTS,studentRowMapper);
     }
@@ -47,7 +48,7 @@ public class StudentJDBCDataAccessService implements StudentDAO{
     @Override
     public Optional<Student> getStudentById(Long studentId) {
         final String SQL_FIND_STUDENT_BY_ID = """
-                SELECT id, first_name, last_name, email, age, gender
+                SELECT id, first_name, last_name, email, password , age, gender
                 FROM student WHERE id= ? """;
         Optional<Student> student = jdbcTemplate.query(SQL_FIND_STUDENT_BY_ID,studentRowMapper, studentId)
                 .stream()
@@ -116,5 +117,17 @@ public class StudentJDBCDataAccessService implements StudentDAO{
                 WHERE id=? """;
             int update = jdbcTemplate.update(sql, student.getAge(), student.getId());
         }
+    }
+
+    @Override
+    public Optional<Student> selectStudentByEmail(String email) {
+        final String SQL_FIND_STUDENT_BY_EMAIL = """
+                SELECT id, first_name, last_name, email, password , age, gender
+                FROM student WHERE email= ? """;
+        Optional<Student> student = jdbcTemplate.query(SQL_FIND_STUDENT_BY_EMAIL,studentRowMapper, email)
+                .stream()
+                .findFirst();
+
+        return student;
     }
 }

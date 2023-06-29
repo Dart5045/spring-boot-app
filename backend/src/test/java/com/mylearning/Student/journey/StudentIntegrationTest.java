@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -44,6 +43,7 @@ public class StudentIntegrationTest {
                 firstName,
                 lastName,
                 email,
+                "password",
                 age,
                 gender
         );
@@ -76,6 +76,7 @@ public class StudentIntegrationTest {
             firstName,
             lastName,
             email,
+    "password",
             age,
             gender
         );
@@ -104,7 +105,7 @@ public class StudentIntegrationTest {
     }
 
     @Test
-    void canDeeteStudent() {
+    void canDeleteStudent() {
         Faker faker = new Faker();
         String firstName = faker.name().firstName();
         String lastName  =  faker.name().lastName();
@@ -118,6 +119,7 @@ public class StudentIntegrationTest {
                 firstName,
                 lastName,
                 email,
+                "password",
                 age,
                 gender
         );
@@ -185,6 +187,7 @@ public class StudentIntegrationTest {
                 firstName,
                 lastName,
                 email,
+                "password",
                 age,
                 gender
         );
@@ -259,9 +262,8 @@ public class StudentIntegrationTest {
                 newName,
                 lastName,
                 email,
-                age,
-                gender,
-                null
+                null, age,
+                gender
         );
         assertThat(expectedStudent).isEqualTo(studentUpdated);
     }

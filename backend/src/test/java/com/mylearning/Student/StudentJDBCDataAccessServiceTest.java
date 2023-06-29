@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
 
@@ -31,6 +30,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 FAKER.internet().safeEmailAddress(),
+                "password",
                 20,
                 Gender.MALE);
          underTest.insertStudent(student);
@@ -51,6 +51,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
         underTest.insertStudent(student);
@@ -97,6 +98,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
         underTest.insertStudent(student);
@@ -115,6 +117,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
         underTest.insertStudent(student);
@@ -148,6 +151,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
         underTest.insertStudent(student);
@@ -187,6 +191,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
         underTest.insertStudent(student);
@@ -214,6 +219,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
 
@@ -254,6 +260,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
 
@@ -294,6 +301,7 @@ class StudentJDBCDataAccessServiceTest  extends AbstractTestContainers {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
 

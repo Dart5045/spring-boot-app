@@ -40,6 +40,7 @@ class StudentJPADataAccessServiceTest {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
+                "password",
                 20,
                 Gender.MALE);
 
@@ -120,7 +121,8 @@ class StudentJPADataAccessServiceTest {
                 FAKER.funnyName().name(),
                 FAKER.name().lastName(),
                 email,
-                20,
+                "password"
+                , 20,
                 Gender.MALE);
 
         //When

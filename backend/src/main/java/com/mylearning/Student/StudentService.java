@@ -5,7 +5,9 @@ import com.mylearning.DTO.StudentUpdateRequest;
 import com.mylearning.exception.DuplicateResourceException;
 import com.mylearning.exception.RequestValidationException;
 import com.mylearning.exception.ResourceNotFoundException;
+import com.mylearning.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -16,9 +18,11 @@ import java.util.List;
 public class StudentService {
 
     private final StudentDAO studentDAO;
+    private final PasswordEncoder passwordEncoder;
 
-    public StudentService(@Qualifier("jdbc") StudentDAO studentDAO) {
+    public StudentService(@Qualifier("jdbc") StudentDAO studentDAO, PasswordEncoder passwordEncoder) {
         this.studentDAO = studentDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Student> getAllStudents(){
@@ -35,10 +39,13 @@ public class StudentService {
         String  email = studentRegistrationRequest.email();
         checkEmail(email);
 
+        String password = passwordEncoder.encode(studentRegistrationRequest.password());
+
         Student student = new Student(
                 studentRegistrationRequest.firstName(),
                 studentRegistrationRequest.lastName(),
                 studentRegistrationRequest.email(),
+                password,
                 studentRegistrationRequest.age(),
                 studentRegistrationRequest.gender()
         );
