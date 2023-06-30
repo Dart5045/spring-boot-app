@@ -24,7 +24,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         this.studentUserDetailService = studentUserDetailService;
     }
 
-
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,

@@ -1,15 +1,17 @@
 package com.mylearning.Student;
 
+import com.mylearning.DTO.StudentDTO;
+import com.mylearning.DTO.StudentDTOMapper;
 import com.mylearning.DTO.StudentRegistrationRequest;
 import com.mylearning.DTO.StudentUpdateRequest;
 import com.mylearning.exception.DuplicateResourceException;
 import com.mylearning.exception.RequestValidationException;
 import com.mylearning.exception.ResourceNotFoundException;
-import com.mylearning.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
   business logic
@@ -19,19 +21,27 @@ public class StudentService {
 
     private final StudentDAO studentDAO;
     private final PasswordEncoder passwordEncoder;
+    private final StudentDTOMapper studentDTOMapper;
 
-    public StudentService(@Qualifier("jdbc") StudentDAO studentDAO, PasswordEncoder passwordEncoder) {
+    public StudentService(@Qualifier("jdbc") StudentDAO studentDAO, PasswordEncoder passwordEncoder, StudentDTOMapper studentDTOMapper) {
         this.studentDAO = studentDAO;
         this.passwordEncoder = passwordEncoder;
+        this.studentDTOMapper = studentDTOMapper;
     }
 
-    public List<Student> getAllStudents(){
-        return studentDAO.getAllStudents();
+    public List<StudentDTO> getAllStudents(){
+
+        return studentDAO
+                .getAllStudents()
+                .stream()
+                .map(student -> studentDTOMapper.apply(student))
+                .collect(Collectors.toList());
     }
 
-    public Student getStudent(Long studentId){
+    public StudentDTO getStudent(Long studentId){
         return studentDAO
                 .getStudentById(studentId)
+                .map(student->studentDTOMapper.apply(student))
                 .orElseThrow(()->new ResourceNotFoundException("Student with id [%s] not found".formatted(studentId)));
     }
 
@@ -63,7 +73,11 @@ public class StudentService {
 
     public void updateStudentById(Long studentId,
                                   StudentUpdateRequest updateRequest) {
-         Student student =  getStudent(studentId);
+         Student student =  studentDAO
+                .getStudentById(studentId)
+                .orElseThrow(()->new ResourceNotFoundException("Student with id [%s] not found".formatted(studentId)));
+
+
          boolean changes = false;
          if(updateRequest.firstName()!=null && !updateRequest.firstName().equals(student.getFirstName()))
          {

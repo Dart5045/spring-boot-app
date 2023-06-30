@@ -1,5 +1,6 @@
 package com.mylearning.Student;
 
+import com.mylearning.DTO.StudentDTO;
 import com.mylearning.DTO.StudentRegistrationRequest;
 import com.mylearning.DTO.StudentUpdateRequest;
 import com.mylearning.Student.Student;
@@ -23,12 +24,12 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudents(  ){
+    public List<StudentDTO> getStudents(  ){
         return studentService.getAllStudents();
     }
 
     @GetMapping("{id}")
-    public Student getStudents(
+    public StudentDTO getStudents(
             @PathVariable("id") Long studentId
     ){
         return studentService.getStudent(studentId);

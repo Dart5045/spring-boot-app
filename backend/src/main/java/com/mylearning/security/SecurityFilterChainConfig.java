@@ -1,5 +1,6 @@
 package com.mylearning.security;
 
+import com.mylearning.exception.DuplicateResourceException;
 import com.mylearning.jwt.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityFilterChainConfig {
     private final AuthenticationProvider authenticationProvider;
 
+    private DuplicateResourceException duplicateResourceException;
+
     private final JWTAuthenticationFilter jwtAuthenticationFilter;
-    public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider, JWTAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider, DuplicateResourceException duplicateResourceException, JWTAuthenticationFilter jwtAuthenticationFilter) {
         this.authenticationProvider = authenticationProvider;
+        this.duplicateResourceException = duplicateResourceException;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
@@ -38,10 +42,7 @@ public class SecurityFilterChainConfig {
                                 httpSecuritySessionManagementConfigurer
                                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         )
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(
-                        jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider);
         return http.build();
     }
 }

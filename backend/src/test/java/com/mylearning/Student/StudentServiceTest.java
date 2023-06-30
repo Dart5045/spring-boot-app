@@ -1,5 +1,7 @@
 package com.mylearning.Student;
 
+import com.mylearning.DTO.StudentDTO;
+import com.mylearning.DTO.StudentDTOMapper;
 import com.mylearning.DTO.StudentRegistrationRequest;
 import com.mylearning.DTO.StudentUpdateRequest;
 import com.mylearning.exception.DuplicateResourceException;
@@ -30,11 +32,13 @@ class StudentServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    private final StudentDTOMapper studentDTOMapper = new StudentDTOMapper();
+
     private StudentService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new StudentService(studentDAO, passwordEncoder);
+        underTest = new StudentService(studentDAO, passwordEncoder, studentDTOMapper);
     }
 
     @Test
@@ -61,13 +65,16 @@ class StudentServiceTest {
                 23,
                 Gender.MALE
         );
+
         when(studentDAO.getStudentById(id)).thenReturn(Optional.of(student));
+        StudentDTO expected= studentDTOMapper.apply(student);
 
         //When
-        Student actual = underTest.getStudent(id);
+        StudentDTO actual = underTest.getStudent(id);
+
 
         //Then
-        assertThat(actual).isEqualTo(student);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
