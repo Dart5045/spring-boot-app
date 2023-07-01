@@ -4,6 +4,7 @@ import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import io.jsonwebtoken.Claims;
@@ -26,6 +27,10 @@ public class JWTUtil {
             String subject,
             String ...scopes
     ){
+        return issueToken(subject, Map.of("scopes",scopes));
+    }
+
+    public String issueToken(String subject, List<String> scopes) {
         return issueToken(subject, Map.of("scopes",scopes));
     }
 
@@ -72,4 +77,6 @@ public class JWTUtil {
         Date today = Date.from(Instant.now());
         return getClaims(jwt).getExpiration().before(today);
     }
+
+
 }
