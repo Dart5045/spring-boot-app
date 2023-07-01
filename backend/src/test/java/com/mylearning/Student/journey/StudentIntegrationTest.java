@@ -1,6 +1,7 @@
 package com.mylearning.Student.journey;
 
 import com.github.javafaker.Faker;
+import com.mylearning.DTO.StudentDTO;
 import com.mylearning.DTO.StudentRegistrationRequest;
 import com.mylearning.DTO.StudentUpdateRequest;
 import com.mylearning.Student.Gender;
@@ -18,6 +19,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class StudentIntegrationTest {
@@ -49,59 +51,66 @@ public class StudentIntegrationTest {
         );
 
         //Send a post request
-        webTestClient.post()
+        String jwtToken = webTestClient.post()
                 .uri(STUDENT_URI)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(Mono.just(request),StudentRegistrationRequest.class)
-                .exchange()
-                .expectStatus()
-                .isOk();
-
-        //Get all students
-        List<Student> allStudents = webTestClient.get()
-                .uri(STUDENT_URI)
-                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(request), StudentRegistrationRequest.class)
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBodyList(new ParameterizedTypeReference<Student>() {
+                .returnResult(Void.class)
+                .getResponseHeaders()
+                .get(AUTHORIZATION)
+                .get(0);
+
+        //Get all students
+        List<StudentDTO> allStudents = webTestClient.get()
+                .uri(STUDENT_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBodyList(new ParameterizedTypeReference<StudentDTO>() {
                 })
                 .returnResult()
                 .getResponseBody();
 
         //Make sure student is present
-
-        Student expectedStudent = new Student(
-            firstName,
-            lastName,
-            email,
-    "password",
-            age,
-            gender
-        );
-        assertThat(allStudents)
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-                .contains(expectedStudent);
-
-
         long id = allStudents
                 .stream()
-                .filter(student -> student.getEmail().equals(email))
-                .map(Student::getId)
+                .filter(student -> student.email().equals(email))
+                .map(StudentDTO::id)
                 .findFirst()
                 .orElseThrow();
 
-        expectedStudent.setId(id);
+        StudentDTO expectedStudentDTO = new StudentDTO(
+                id,
+                firstName,
+                lastName,
+                email,
+                age,
+                gender,
+                List.of("ROLE_STUDENT"),
+                email
+        );
+
+        assertThat(allStudents)
+                .contains(expectedStudentDTO);
+
+
         //Get student by id
         webTestClient.get()
                 .uri(STUDENT_URI+"/{id}",id)
                 .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBody(new ParameterizedTypeReference<Student>() { })
-                .isEqualTo(expectedStudent);
+                .expectBody(new ParameterizedTypeReference<StudentDTO>() { })
+                .isEqualTo(expectedStudentDTO)
+        ;
     }
 
     @Test
@@ -116,32 +125,46 @@ public class StudentIntegrationTest {
 
         //Create student registration request
         StudentRegistrationRequest request = new StudentRegistrationRequest(
-                firstName,
-                lastName,
-                email,
-                "password",
-                age,
-                gender
+                firstName,  lastName,  email,  "password",  age,   gender
         );
 
-        //Send a post request
+        StudentRegistrationRequest request2 = new StudentRegistrationRequest(
+                firstName,  lastName,  email+"bo",  "password",  age,   gender
+        );
+
+        //Send a post request to create student 1
         webTestClient.post()
                 .uri(STUDENT_URI)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(Mono.just(request),StudentRegistrationRequest.class)
+                .body(Mono.just(request), StudentRegistrationRequest.class)
                 .exchange()
                 .expectStatus()
                 .isOk();
 
-        //Get all students
-        List<Student> allStudents = webTestClient.get()
+        //Send a post request to create student 2
+        String jwtToken = webTestClient.post()
                 .uri(STUDENT_URI)
                 .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(request2), StudentRegistrationRequest.class)
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBodyList(new ParameterizedTypeReference<Student>() {
+                .returnResult(Void.class)
+                .getResponseHeaders()
+                .get(AUTHORIZATION)
+                .get(0);
+
+        //Get all students
+        List<StudentDTO> allStudents = webTestClient.get()
+                .uri(STUDENT_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBodyList(new ParameterizedTypeReference<StudentDTO>() {
                 })
                 .returnResult()
                 .getResponseBody();
@@ -150,8 +173,8 @@ public class StudentIntegrationTest {
 
         long id = allStudents
                 .stream()
-                .filter(student -> student.getEmail().equals(email))
-                .map(Student::getId)
+                .filter(studentDTO -> studentDTO.email().equals(email))
+                .map(StudentDTO::id)
                 .findFirst()
                 .orElseThrow();
 
@@ -159,6 +182,7 @@ public class StudentIntegrationTest {
         webTestClient.delete()
                 .uri(STUDENT_URI+"/{id}",id)
                 .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
                 .exchange()
                 .expectStatus()
                 .isOk();
@@ -167,6 +191,7 @@ public class StudentIntegrationTest {
         webTestClient.get()
                 .uri(STUDENT_URI+"/{id}",id)
                 .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
                 .exchange()
                 .expectStatus()
                 .isNotFound();
@@ -194,39 +219,39 @@ public class StudentIntegrationTest {
 
 
         //Send a post request
-        webTestClient.post()
+        String jwtToken = webTestClient.post()
                 .uri(STUDENT_URI)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(Mono.just(request),StudentRegistrationRequest.class)
-                .exchange()
-                .expectStatus()
-                .isOk();
-
-        //Get all students
-        List<Student> allStudents = webTestClient.get()
-                .uri(STUDENT_URI)
-                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(request), StudentRegistrationRequest.class)
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBodyList(new ParameterizedTypeReference<Student>() {
+                .returnResult(Void.class)
+                .getResponseHeaders()
+                .get(AUTHORIZATION)
+                .get(0);
+
+        //Get all students
+        List<StudentDTO> allStudents = webTestClient.get()
+                .uri(STUDENT_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBodyList(new ParameterizedTypeReference<StudentDTO>() {
                 })
                 .returnResult()
                 .getResponseBody();
 
         //Make sure student is present
-
-
-
-
         long id = allStudents
                 .stream()
-                .filter(student -> student.getEmail().equals(email))
-                .map(Student::getId)
+                .filter(student -> student.email().equals(email))
+                .map(StudentDTO::id)
                 .findFirst()
                 .orElseThrow();
-
 
         //Update student
         String newName = "Alex";
@@ -234,37 +259,40 @@ public class StudentIntegrationTest {
                 newName, null,null,null,null
         );
 
-
         webTestClient.put()
                 .uri(STUDENT_URI+"/{id}",id)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(updateRequest),StudentUpdateRequest.class)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
                 .exchange()
                 .expectStatus()
                 .isOk();
 
 
         //Get student by id
-        Student studentUpdated = webTestClient.get()
+        StudentDTO studentDTOUpdated = webTestClient.get()
                 .uri(STUDENT_URI + "/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION,String.format("Bearer %s",jwtToken ))
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBody(new ParameterizedTypeReference<Student>() {
+                .expectBody(new ParameterizedTypeReference<StudentDTO>() {
                 })
                 .returnResult()
                 .getResponseBody();
 
-        Student expectedStudent = new Student(
-                id,
-                newName,
-                lastName,
-                email,
-                null, age,
-                gender
+        StudentDTO expectedStudentDTO = new StudentDTO(
+            id,
+            newName,
+            lastName,
+            email,
+            age,
+            gender,
+            List.of("ROLE_STUDENT"),
+            email
         );
-        assertThat(expectedStudent).isEqualTo(studentUpdated);
+        assertThat(expectedStudentDTO).isEqualTo(studentDTOUpdated);
     }
 }

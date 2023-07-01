@@ -30,6 +30,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException
     {
+
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request,response); //The request will be automatically rejected
@@ -38,7 +39,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt= authHeader.substring(7);
         String subject = jwtUtil.getSubject(jwt);
-
         if (subject!=null &&
                 SecurityContextHolder.getContext().getAuthentication()==null) //To know if the user is authenticated
         {
