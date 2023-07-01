@@ -36,6 +36,7 @@ public class SecurityFilterChainConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"api/v1/students","api/v1/auth/login").permitAll()
+                        .requestMatchers("ping").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(
