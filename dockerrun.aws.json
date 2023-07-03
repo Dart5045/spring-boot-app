@@ -5,7 +5,7 @@
       "name": "mylearning-api",
       "image": "bladimirg/spring-boot-app:latest",
       "essential": true,
-      "memory": 128,
+      "memory": 512,
       "portMappings": [
         {
           "hostPort": 80,
@@ -15,7 +15,7 @@
       "enviroment": [
         {
           "name": "SPRING_DATASOURCE_URL",
-          "value" : "jdbc:postgresql://awseb-e-mnxuyqcbm4-stack-awsebrdsdatabase-bw0f8uozkyts.cvydrhqmscyg.eu-west-3.rds.amazonaws.com:5432/student"
+          "value" : "jdbc:postgresql://awseb-e-rzjm5mrh4r-stack-awsebrdsdatabase-g1sjenldxtsv.cvydrhqmscyg.eu-west-3.rds.amazonaws.com:5432/ebdb"
         }
       ]
     }
